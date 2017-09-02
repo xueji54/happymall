@@ -57,6 +57,7 @@
     <filter-name>CocoonMultipartFilter</filter-name>
     <servlet-name>Cocoon</servlet-name>
   </filter-mapping>
+
   <filter-mapping>
     <filter-name>CocoonMultipartFilter</filter-name>
     <servlet-name>DispatcherServlet</servlet-name>
