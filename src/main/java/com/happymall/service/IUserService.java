@@ -8,4 +8,5 @@ public interface IUserService {
     ServiceResponse<String> register(User user);
     ServiceResponse<String> checkValid(String str,String type);
     ServiceResponse selectQusetion(String username);
+    ServiceResponse forgetCheckAnswer(String username,String question,String answer);
 }

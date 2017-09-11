@@ -2,6 +2,7 @@ package com.happymall.service.impl;
 
 import com.happymall.common.Const;
 import com.happymall.common.ServiceResponse;
+import com.happymall.common.TokenCache;
 import com.happymall.dao.UserMapper;
 import com.happymall.pojo.User;
 import com.happymall.service.IUserService;
@@ -9,6 +10,8 @@ import com.happymall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
@@ -86,5 +89,15 @@ public class UserServiceImpl implements IUserService {
            return ServiceResponse.creatBysuccessMessage(question);
        }
        return ServiceResponse.creatByErrorMessage("密码问题不存在");
+    }
+
+    public ServiceResponse<String> forgetCheckAnswer(String username,String question,String answer){
+        int resultCount = userMapper.checkAnswer(username,question,answer);
+        if(resultCount > 0){
+            String forgetToken = UUID.randomUUID().toString();
+            TokenCache.setKey("Token_"+username,forgetToken);
+            return ServiceResponse.creatBysuccessMessage(forgetToken);
+        }
+        return ServiceResponse.creatByErrorMessage("问题的答案错误！");
     }
 }
