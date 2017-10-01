@@ -79,4 +79,10 @@ public class UserController {
         return iUserService.forgetCheckAnswer(username,question,answer);
     }
 
+    @RequestMapping(value = "forgetPassword.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServiceResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken){
+        return iUserService.resetPassword(username,passwordNew,forgetToken);
+    }
+
 }

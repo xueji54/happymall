@@ -175,4 +175,17 @@
     FROM happymall_user
     where username = #{username}
   </select>
+
+  <select id="checkAnswer" resultType="int" parameterMap="map">
+    select count(1) From happymall_user
+    WHERE username = #{username}
+    and question = #{question}
+    and answer = #{answer}
+  </select>
+
+  <update id="updatePasswordByUsername" parameterMap="map">
+    UPDATE happymall_user
+    SET password=#{passwordNew},update_time = now()
+    WHERE username=#{username}
+  </update>
 </mapper>

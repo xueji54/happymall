@@ -20,6 +20,8 @@ public class UserServiceImpl implements IUserService {
     private UserMapper userMapper;
 
 
+
+
     @Override
     public ServiceResponse<User> login(String username, String password) {
         int userCount = userMapper.checkUserName(username);
@@ -95,9 +97,33 @@ public class UserServiceImpl implements IUserService {
         int resultCount = userMapper.checkAnswer(username,question,answer);
         if(resultCount > 0){
             String forgetToken = UUID.randomUUID().toString();
-            TokenCache.setKey("Token_"+username,forgetToken);
+            TokenCache.setKey(TokenCache.TOKEN_PREFIX+username,forgetToken);
             return ServiceResponse.creatBysuccessMessage(forgetToken);
         }
         return ServiceResponse.creatByErrorMessage("问题的答案错误！");
+    }
+
+    public ServiceResponse<String> resetPassword(String username,String passwordNew,String forgetToken){
+        if(StringUtils.isBlank(forgetToken)){
+            return ServiceResponse.creatByErrorMessage("操作错误，请重新执行重置密码操作");
+        }
+        ServiceResponse validResult = checkValid(username,Const.USER_NAME);
+        if(validResult.isSuccess()){
+            return ServiceResponse.creatByErrorMessage("用户名不存在");
+        }
+        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX+username);
+        if(StringUtils.isBlank(token)){
+            return ServiceResponse.creatByErrorMessage("您的身份信息无效或者过期，请重新申请");
+        }
+        if(StringUtils.equals(forgetToken,token)){
+            String md5password = MD5Util.MD5EncodeUtf8(passwordNew);
+            int rowCount = userMapper.updatePasswordByUsername(username,md5password);
+            if(rowCount>0){
+                return ServiceResponse.creatBysuccessMessage("修改密码成功");
+            }else{
+                return ServiceResponse.creatByErrorMessage("修改密码失败！token错误");
+            }
+        }
+        return ServiceResponse.creatByErrorMessage("修改密码失败");
     }
 }

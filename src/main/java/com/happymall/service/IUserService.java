@@ -9,4 +9,5 @@ public interface IUserService {
     ServiceResponse<String> checkValid(String str,String type);
     ServiceResponse selectQusetion(String username);
     ServiceResponse forgetCheckAnswer(String username,String question,String answer);
+    ServiceResponse<String> resetPassword(String username,String passwordNew,String forgetToken);
 }
