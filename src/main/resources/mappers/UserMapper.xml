@@ -188,4 +188,9 @@
     SET password=#{passwordNew},update_time = now()
     WHERE username=#{username}
   </update>
+  <select id="checkPassword" resultType="int" parameterMap="map">
+    SELECT count(1) FROM happymall_user
+    WHERE id=#{userid} AND password=#{password}
+
+  </select>
 </mapper>

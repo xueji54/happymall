@@ -82,7 +82,7 @@ public class UserController {
     @RequestMapping(value = "forgetPassword.do",method = RequestMethod.GET)
     @ResponseBody
     public ServiceResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken){
-        return iUserService.resetPassword(username,passwordNew,forgetToken);
+        return iUserService.forgetResetPassword(username,passwordNew,forgetToken);
     }
     
     @RequestMapping(value = "resetPassword.do",method = RequestMethod.GET)
@@ -90,7 +90,10 @@ public class UserController {
     public ServiceResponse<String> ResetPassword(HttpSession session,String passwordOld,String passwordNew){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user == null){
-            return ServiceResponse.creatBysuccessMessage("请登录");
+            return ServiceResponse.creatByErrorMessage("未登录，请登录！");
+        }
+        else{
+            return iUserService.resetPassword(passwordOld,passwordNew,user);
         }
     }
 
