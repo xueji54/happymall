@@ -1,6 +1,7 @@
 package com.happymall.controller.portal;
 
 import com.happymall.common.Const;
+import com.happymall.common.ResponseCode;
 import com.happymall.common.ServiceResponse;
 import com.happymall.pojo.User;
 import com.happymall.service.IUserService;
@@ -97,4 +98,28 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "update_information.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServiceResponse<User> update_information(HttpSession session,User user){
+        User current_User = (User)session.getAttribute(Const.CURRENT_USER);
+        if(current_User == null){
+            return ServiceResponse.creatByErrorMessage("未登录，请登陆！");
+        }
+        user.setId(current_User.getId());
+        ServiceResponse<User> response = iUserService.updateInformation(user);
+        if(response.isSuccess()){
+            session.setAttribute(Const.CURRENT_USER,response.getDate());
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "get_information.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServiceResponse<User> get_information(HttpSession session){
+        User current_User = (User)session.getAttribute(Const.CURRENT_USER);
+        if(current_User == null){
+            return ServiceResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登陆，需要强制登陆statue = 10");
+        }
+        return iUserService.getInformation(current_User.getId());
+    }
 }
