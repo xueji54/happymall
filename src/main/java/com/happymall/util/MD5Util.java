@@ -1,5 +1,6 @@
 package com.happymall.util;
 
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.util.StringUtils;
 
 import java.security.MessageDigest;
@@ -48,6 +49,7 @@ public class MD5Util {
     }
 
     public static String MD5EncodeUtf8(String origin) {
+        origin = origin + "&^bbdsjkdfjkajkfjkdsauiuie^&*BbbBNYW*(ghdsbh";
         return MD5Encode(origin, "utf-8");
     }
 

@@ -39,26 +39,26 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "logout.do",method = RequestMethod.GET)
+    @RequestMapping(value = "logout.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> logout(HttpSession session) {
         session.removeAttribute(Const.CURRENT_USER);
         return ServiceResponse.creatBySuccess();
     }
 
-    @RequestMapping(value = "register.do",method = RequestMethod.GET)
+    @RequestMapping(value = "register.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> register(User user){
         return iUserService.register(user);
     }
 
-    @RequestMapping(value = "checkValid.do",method = RequestMethod.GET)
+    @RequestMapping(value = "checkValid.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> checkValid(String str,String type){
         return iUserService.checkValid(str,type);
     }
 
-    @RequestMapping(value = "getUserInfo.do",method = RequestMethod.GET)
+    @RequestMapping(value = "getUserInfo.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<User> getUserInfo(HttpSession session){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
@@ -68,25 +68,25 @@ public class UserController {
         return ServiceResponse.creatByErrorMessage("用户未登陆！");
     }
 
-    @RequestMapping(value = "getQuestion.do",method = RequestMethod.GET)
+    @RequestMapping(value = "getQuestion.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> forgetGetQuestion(String username){
         return iUserService.selectQusetion(username);
     }
 
-    @RequestMapping(value = "checkAnswer.do",method = RequestMethod.GET)
+    @RequestMapping(value = "checkAnswer.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> forgetCheckAnswer(String username,String question,String answer){
         return iUserService.forgetCheckAnswer(username,question,answer);
     }
 
-    @RequestMapping(value = "forgetPassword.do",method = RequestMethod.GET)
+    @RequestMapping(value = "forgetPassword.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken){
         return iUserService.forgetResetPassword(username,passwordNew,forgetToken);
     }
     
-    @RequestMapping(value = "resetPassword.do",method = RequestMethod.GET)
+    @RequestMapping(value = "resetPassword.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> ResetPassword(HttpSession session,String passwordOld,String passwordNew){
         User user = (User)session.getAttribute(Const.CURRENT_USER);
@@ -98,7 +98,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "update_information.do",method = RequestMethod.GET)
+    @RequestMapping(value = "update_information.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<User> update_information(HttpSession session,User user){
         User current_User = (User)session.getAttribute(Const.CURRENT_USER);
@@ -113,7 +113,7 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "get_information.do",method = RequestMethod.GET)
+    @RequestMapping(value = "get_information.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<User> get_information(HttpSession session){
         User current_User = (User)session.getAttribute(Const.CURRENT_USER);
