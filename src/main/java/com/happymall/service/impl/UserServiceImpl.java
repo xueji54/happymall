@@ -74,10 +74,11 @@ public class UserServiceImpl implements IUserService {
                 if(resultCount > 0){
                     return ServiceResponse.creatByErrorMessage("邮箱已存在！");
                 }
-            }else{
-                return ServiceResponse.creatByErrorMessage("参数错误！");
             }
         }
+         else{
+            return ServiceResponse.creatByErrorMessage("参数错误！");
+           }
         return ServiceResponse.creatBysuccessMessage("校验成功！");
     }
 
@@ -86,7 +87,7 @@ public class UserServiceImpl implements IUserService {
        if(validResult.isSuccess()){
            return ServiceResponse.creatByErrorMessage("用户名不存在");
        }
-        String question = userMapper.selectQuestiongByUsername(username);
+        String question = userMapper.selectQuestionByUsername(username);
        if(StringUtils.isNotBlank(question)){
            return ServiceResponse.creatBysuccessMessage(question);
        }
@@ -153,10 +154,10 @@ public class UserServiceImpl implements IUserService {
         updateUser.setAnswer(user.getAnswer());
 
         int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
-        if(updateCount > 0){
-            ServiceResponse.creatBysuccessMessage("更新个人信息成功！",updateUser);
+        if(updateCount == 0){
+            ServiceResponse.creatByErrorMessage("更新个人信息失败！");
         }
-        return ServiceResponse.creatByErrorMessage("更新个人信息失败!");
+        return ServiceResponse.creatBysuccessMessage("更新个人信息成功!",updateUser);
     }
 
     public ServiceResponse<User> getInformation(Integer userid){

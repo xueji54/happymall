@@ -68,7 +68,7 @@ public class UserController {
         return ServiceResponse.creatByErrorMessage("用户未登陆！");
     }
 
-    @RequestMapping(value = "getQuestion.do",method = RequestMethod.POST)
+    @RequestMapping(value = "forgetGetQuestion.do",method = RequestMethod.POST)
     @ResponseBody
     public ServiceResponse<String> forgetGetQuestion(String username){
         return iUserService.selectQusetion(username);

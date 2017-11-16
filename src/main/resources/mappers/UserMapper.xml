@@ -19,7 +19,7 @@
     id, username, password, email, phone, question, answer, role, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from happymall_user
     where id = #{id,jdbcType=INTEGER}
@@ -29,14 +29,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.happymall.pojo.User" >
-    insert into happymall_user (id, username, password, 
-      email, phone, question, 
-      answer, role, create_time, 
-      update_time)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
-      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(),
-      now())
+    insert into happymall_user (id, username, password,
+    email, phone, question,
+    answer, role, create_time,
+    update_time)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR},
+    #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, now(),
+    now())
   </insert>
   <insert id="insertSelective" parameterType="com.happymall.pojo.User" >
     insert into happymall_user
@@ -141,60 +141,77 @@
   <update id="updateByPrimaryKey" parameterType="com.happymall.pojo.User" >
     update happymall_user
     set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      question = #{question,jdbcType=VARCHAR},
-      answer = #{answer,jdbcType=VARCHAR},
-      role = #{role,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = now()
+    password = #{password,jdbcType=VARCHAR},
+    email = #{email,jdbcType=VARCHAR},
+    phone = #{phone,jdbcType=VARCHAR},
+    question = #{question,jdbcType=VARCHAR},
+    answer = #{answer,jdbcType=VARCHAR},
+    role = #{role,jdbcType=INTEGER},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = now()
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="checkUserName" resultType="int" parameterMap="string">
-    SELECT count(1) FROM happymall_user
-    WHERE username = #{username}
-  </select>
-  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM happymall_user
-    WHERE
-    username = #{username}
-    and password = #{password}
-  </select>
 
-  <select id="checkEmail" resultType="int" parameterMap="string">
-    select count(1) FROM happymall_user
-    where email=#{email}
-  </select>
-  
-  <select id="selectQuestiongByUsername" resultType="string" parameterMap="string">
-    select
-    question
-    FROM happymall_user
+
+  <select id="checkUserName" resultType="int" parameterType="string" >
+    select count(1) from happymall_user
     where username = #{username}
   </select>
 
-  <select id="checkAnswer" resultType="int" parameterMap="map">
-    select count(1) From happymall_user
-    WHERE username = #{username}
+  <select id="checkEmail" resultType="int" parameterType="string" >
+    select count(1) from happymall_user
+    where email = #{email}
+  </select>
+
+
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List" />
+    from happymall_user
+    where username = #{username}
+    and password = #{password}
+  </select>
+
+
+  <select id="selectQuestionByUsername" resultType="string" parameterType="string">
+    select
+    question
+    from happymall_user
+    where username = #{username}
+  </select>
+
+  <select id="checkAnswer" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    from happymall_user
+    where username=#{username}
     and question = #{question}
     and answer = #{answer}
   </select>
 
-  <update id="updatePasswordByUsername" parameterMap="map">
-    UPDATE happymall_user
-    SET password=#{passwordNew},update_time = now()
-    WHERE username=#{username}
+  <update id="updatePasswordByUsername" parameterType="map">
+    update happymall_user
+    SET password = #{passwordNew},update_time = now()
+    where username = #{username}
   </update>
-  <select id="checkPassword" resultType="int" parameterMap="map">
-    SELECT count(1) FROM happymall_user
-    WHERE id=#{userid} AND password=#{password}
 
+  <select id="checkPassword" resultType="int" parameterType="map">
+    SELECT
+    count(1)
+    from happymall_user
+    where password = #{password}
+    and id = #{userid}
   </select>
-  <select id="checkEmailByUserId" resultType="int" parameterMap="map">
-    SELECT COUNT(1) FROM happymall_user
-    WHERE email=#{email} AND id != #{userid}
+
+
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    select count(1) from happymall_user
+    where email = #{email}
+    and id != #{userid}
   </select>
+
+
+
+
+
 </mapper>
