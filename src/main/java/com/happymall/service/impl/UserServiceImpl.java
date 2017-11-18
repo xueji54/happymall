@@ -168,4 +168,11 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(StringUtils.EMPTY);
         return ServiceResponse.creatBysuccessMessage(user);
     }
+
+    public ServiceResponse checkAdminRole(User user){
+        if(user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN){
+            return ServiceResponse.creatBysuccessMessage("校验成功！");
+        }
+        return ServiceResponse.creatByErrorMessage("用户未登陆或不是管理员！");
+    }
 }
