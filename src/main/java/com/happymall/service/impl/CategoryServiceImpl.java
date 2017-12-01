@@ -28,4 +28,18 @@ public class CategoryServiceImpl implements ICategoryService {
         }
         return ServiceResponse.creatBysuccessMessage("添加品类失败");
     }
+
+    public ServiceResponse updateCategoryName(Integer categoryId,String categoryName){
+        if(categoryId == null || StringUtils.isBlank(categoryName) ){
+            return ServiceResponse.creatByErrorMessage("更新品类参数错误!");
+        }
+        Category category = new Category();
+        category.setName(categoryName);
+        category.setId(categoryId);
+        int row = categoryMapper.updateByPrimaryKeySelective(category);
+        if(row > 0){
+            return ServiceResponse.creatBysuccessMessage("更新品类成功");
+        }
+        return ServiceResponse.creatByErrorMessage("更新品类失败");
+    }
 }
